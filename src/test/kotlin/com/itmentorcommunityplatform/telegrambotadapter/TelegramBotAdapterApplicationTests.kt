@@ -2,12 +2,14 @@ package com.itmentorcommunityplatform.telegrambotadapter
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
-//@SpringBootTest
+@SpringBootTest
+@ActiveProfiles("ide")
 class TelegramBotAdapterApplicationTests {
 
-//	@Test
-//	fun contextLoads() {
-//	}
+    @Test
+    fun contextLoads() {
+    }
 
 }
