@@ -33,7 +33,8 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
 
     // Database
-    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.postgresql:postgresql")
+    implementation ("org.liquibase:liquibase-core")
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
