@@ -8,7 +8,7 @@ data class TelegramBotTask(
     @Id
     val id: Long? = null,
     val taskType: String,
-    val payload: String,
+    val payload: JsonbValue,
     val createdAt: Long,
     val sent: Boolean = false
 )

@@ -1,12 +1,13 @@
 package com.itmentorcommunityplatform.telegrambotadapter.config
 
+import com.itmentorcommunityplatform.telegrambotadapter.model.JsonbValue
+import org.postgresql.util.PGobject
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
-import org.postgresql.util.PGobject
 
 @ReadingConverter
-class JsonbReadingConverter : Converter<PGobject, String> {
-    override fun convert(source: PGobject): String? {
-        return source.value
+class JsonbReadingConverter : Converter<PGobject, JsonbValue> {
+    override fun convert(source: PGobject): JsonbValue {
+        return JsonbValue(source.value ?: "")
     }
 }

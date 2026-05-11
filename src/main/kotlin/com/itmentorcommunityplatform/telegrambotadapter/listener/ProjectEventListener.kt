@@ -2,6 +2,7 @@ package com.itmentorcommunityplatform.telegrambotadapter.listener
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.itmentorcommunityplatform.telegrambotadapter.dto.event.ProjectCreatedEvent
+import com.itmentorcommunityplatform.telegrambotadapter.model.JsonbValue
 import com.itmentorcommunityplatform.telegrambotadapter.model.SourceType
 import com.itmentorcommunityplatform.telegrambotadapter.model.TelegramBotTask
 import com.itmentorcommunityplatform.telegrambotadapter.repository.TelegramBotTaskRepository
@@ -34,10 +35,12 @@ class ProjectEventListener(
 
         val task = TelegramBotTask(
             taskType = topic,
-            payload = objectMapper.writeValueAsString(event),
+            payload = JsonbValue(objectMapper.writeValueAsString(event)),
             createdAt = System.currentTimeMillis() / 1000
         )
+
         taskRepository.save(task)
+
         logger.info(
             "Saved task for project: roadmapProject={}, source={}",
             event.roadmapProject, event.projectSourceType
