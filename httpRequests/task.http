@@ -1,13 +1,38 @@
 ### 1. Успешный запрос 200
-GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=6
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=1
 Accept: application/json
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 
-### 2. Неверная авторизация (Неверные креды) 401
+### 2. Успешный запрос 200
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=5
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 3. Успешный запрос 200
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=10
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 4. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=0
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 5. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=-1
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 6. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=11
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 7. Неверная авторизация (Неверные креды) 401
 GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=3
 Accept: application/json
 Authorization: Basic dXNlcсm5hbWU6cGFzc3dvcmQ=
 
-### 3. Неверная авторизация (Отсутствие заголовка авторизации) 401
+### 8. Неверная авторизация (Отсутствие заголовка авторизации) 401
 GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=3
 Accept: application/json

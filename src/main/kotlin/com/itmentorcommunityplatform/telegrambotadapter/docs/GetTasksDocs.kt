@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
     required = true,
     `in` = ParameterIn.QUERY,
     example = "5",
-    schema = Schema(minimum = "1", maximum = "10")
+    schema = Schema(type = "integer")
 )
 @ApiResponses(
     value = [
@@ -49,13 +49,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
             )]
         ),
         ApiResponse(
-            responseCode = "401",
-            description = "Ошибка авторизации",
+            responseCode = "400",
+            description = "Количество запрошеных задач выходит за допустимый лимит",
             content = [Content(
                 mediaType = "application/json",
                 examples = [ExampleObject(
-                    name = "Unauthorized",
-                    value = """{"message": "Authentication required: Full authentication is required to access this resource"}"""
+                    name = "Bad Request",
+                    value = """{"message": "The number of requested tasks exceeds the allowed limit."}"""
                 )]
             )]
         ),
