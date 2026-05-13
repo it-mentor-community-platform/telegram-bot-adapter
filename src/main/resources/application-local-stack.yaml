@@ -11,3 +11,7 @@ spring:
 
   kafka:
     bootstrap-servers: kafka:9092
+
+auth:
+  username: username
+  password: password

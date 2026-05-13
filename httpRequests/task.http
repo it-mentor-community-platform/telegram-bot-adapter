@@ -1,0 +1,13 @@
+### 1. Успешный запрос 200
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=6
+Accept: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+### 2. Неверная авторизация (Неверные креды) 401
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=3
+Accept: application/json
+Authorization: Basic dXNlcсm5hbWU6cGFzc3dvcmQ=
+
+### 3. Неверная авторизация (Отсутствие заголовка авторизации) 401
+GET http://localhost:8080/api/telegram-bot-adapter/tasks?count=3
+Accept: application/json
