@@ -28,7 +28,3 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     topics:
       project-created: projects.project.created
-
-auth:
-  username: ${TELEGRAM_ADAPTER_USERNAME}
-  password: ${TELEGRAM_ADAPTER_PASSWORD}

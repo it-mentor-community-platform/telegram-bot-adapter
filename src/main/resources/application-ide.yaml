@@ -14,11 +14,3 @@ spring:
 
   kafka:
     bootstrap-servers: localhost:29092
-
-auth:
-  username: username
-  password: password
-
-logging:
-  level:
-    org.springframework.security: DEBUG
