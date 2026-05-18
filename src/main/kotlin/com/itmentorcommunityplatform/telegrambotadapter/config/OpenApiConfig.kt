@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import io.swagger.v3.oas.models.Components
 
 @Configuration
 class OpenApiConfig {
@@ -19,7 +20,8 @@ class OpenApiConfig {
                     .description("API для интеграции Telegram бота с микросервисами сообщества")
             )
             .components(
-                io.swagger.v3.oas.models.Components().addSecuritySchemes(
+                Components()
+                    .addSecuritySchemes(
                     "basicAuth",
                     SecurityScheme()
                         .type(SecurityScheme.Type.HTTP)

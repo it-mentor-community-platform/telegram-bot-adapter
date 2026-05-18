@@ -18,7 +18,7 @@ class TelegramBotAdapterController(
     @GetMapping("/tasks")
     @GetTasksDocs
     fun getTask(@RequestParam count: Int): ResponseEntity<TaskResponseDto> {
-        val tasks = taskService.getSentedTesks(count)
+        val tasks = taskService.getSentTasks(count)
         return ResponseEntity.ok(tasks)
     }
 }

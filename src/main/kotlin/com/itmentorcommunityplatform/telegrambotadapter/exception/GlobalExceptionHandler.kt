@@ -9,10 +9,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
-    @ExceptionHandler(TaskCountException::class)
-    fun handleTaskCountException(exception: TaskCountException): ResponseEntity<ErrorResponseDto> {
+    @ExceptionHandler(TaskCountOutOfBoundException::class)
+    fun handleTaskCountOutOfBoundException(exception: TaskCountOutOfBoundException): ResponseEntity<ErrorResponseDto> {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(ErrorResponseDto(exception.message.toString()))
     }
+
+    @ExceptionHandler(Exception::class)
+    fun handleException(exception: Exception): ResponseEntity<ErrorResponseDto> {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ErrorResponseDto("Internal server error"))
+    }
+
 }

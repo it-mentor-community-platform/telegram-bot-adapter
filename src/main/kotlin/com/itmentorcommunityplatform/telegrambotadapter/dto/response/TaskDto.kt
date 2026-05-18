@@ -1,8 +1,9 @@
 package com.itmentorcommunityplatform.telegrambotadapter.dto.response
 
-import com.itmentorcommunityplatform.telegrambotadapter.model.JsonbValue
+import com.fasterxml.jackson.databind.JsonNode
+
 
 data class TaskDto(
     val taskType: String,
-    val payload: JsonbValue,
+    val payload: JsonNode,
 )
