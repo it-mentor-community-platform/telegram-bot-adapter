@@ -1,0 +1,23 @@
+### 1. Успешный запрос 200
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=1
+Accept: application/json
+
+### 2. Успешный запрос 200
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=5
+Accept: application/json
+
+### 3. Успешный запрос 200
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=10
+Accept: application/json
+
+### 4. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=0
+Accept: application/json
+
+### 5. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=-1
+Accept: application/json
+
+### 6. Количество запрошеных задач выходит за допустимый лимит 400
+GET http://localhost:8087/api/telegram-bot-adapter/tasks?count=11
+Accept: application/json
