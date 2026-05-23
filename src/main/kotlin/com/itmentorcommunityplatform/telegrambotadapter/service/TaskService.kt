@@ -8,23 +8,26 @@ import com.itmentorcommunityplatform.telegrambotadapter.exception.TaskCountOutOf
 import com.itmentorcommunityplatform.telegrambotadapter.repository.TelegramBotTaskRepository
 import org.springframework.stereotype.Service
 
+private const val topCountLimit = 10
+private const val bottomCountLimit = 1
+
 @Service
 class TaskService (
     private val taskRepository: TelegramBotTaskRepository,
     private val objectMapper: ObjectMapper
 ){
     fun getSentTasks(count: Int): TaskResponseDto{
-        val topCountLimit = 10
-        val bottomCountLimit = 1
-        if (count < bottomCountLimit || count > topCountLimit) {
+
+        if (count !in bottomCountLimit..topCountLimit) {
             throw TaskCountOutOfBoundException("The number of tasks exceeds the allowed limit.")
         }
         val tasks = taskRepository.fetchAndMarkAsSent(count)
         return TaskResponseDto(
             count = tasks.size,
             tasks = tasks.map {
-                val payloadNode: JsonNode = objectMapper.readTree(it.payload.value)
-                TaskDto(taskType = it.taskType, payload = payloadNode)  }
+                TaskDto(
+                    taskType = it.taskType,
+                    payload = it.payload.value)  }
         )
     }
 }
