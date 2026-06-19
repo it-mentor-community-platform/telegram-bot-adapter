@@ -26,3 +26,4 @@ spring:
     topics:
       project-created: projects.project.created
       mentor-notification: notifications.mentors.project.submitted
+      student-review-submitted: notifications.students.review.submitted
