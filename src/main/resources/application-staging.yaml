@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: staging
+
+  kafka:
+    topics:
+      project-created: staging.projects.project.created
+      mentor-notification: staging.notifications.mentors.project.submitted
+      student-review-submitted: staging.notifications.students.review.submitted
+    properties:
+      security.protocol: ${KAFKA_SECURITY_PROTOCOL}
+      sasl.mechanism: ${KAFKA_SASL_MECHANISM}
+      sasl.jaas.config: ${KAFKA_SASL_JAAS_CONFIG}
+      ssl.truststore.type: ${KAFKA_SSL_TRUSTSTORE_TYPE}
+      ssl.truststore.location: ${KAFKA_SSL_TRUSTSTORE_LOCATION}
