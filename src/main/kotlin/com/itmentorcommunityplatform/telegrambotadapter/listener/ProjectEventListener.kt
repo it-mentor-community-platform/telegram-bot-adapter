@@ -18,7 +18,7 @@ class ProjectEventListener(
     private val objectMapper: ObjectMapper
 ) {
     private val logger = LoggerFactory.getLogger("ProjectEventListener")
-    private val ignore = SourceType.TELEGRAM_BOT.name
+    private val ignore = SourceType.TELEGRAM_BOT
 
     @KafkaListener(
         topics = ["\${spring.kafka.topics.project-created}"],
@@ -28,7 +28,7 @@ class ProjectEventListener(
         event: ProjectCreatedEvent,
         @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
     ) {
-        if (event.projectSourceType.equals(ignore, ignoreCase = true)) {
+        if (event.projectSourceType.equals(ignore)) {
             logger.info("Ignoring message for ${event.projectSourceType}")
             return
         }
