@@ -7,6 +7,7 @@ spring:
       project-created: staging.projects.project.created
       mentor-notification: staging.notifications.mentors.project.submitted
       student-review-submitted: staging.notifications.students.review.submitted
+      review-created: staging.reviews.review.created
     properties:
       security.protocol: ${KAFKA_SECURITY_PROTOCOL}
       sasl.mechanism: ${KAFKA_SASL_MECHANISM}
