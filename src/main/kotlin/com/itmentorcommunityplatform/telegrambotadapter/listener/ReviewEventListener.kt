@@ -19,6 +19,7 @@ class ReviewEventListener(
 ) {
     private val logger =
         LoggerFactory.getLogger(StudentReviewSubmittedListener::class.java)
+    private val ignore = SourceType.TELEGRAM_BOT
 
     @KafkaListener(
         topics = ["\${spring.kafka.topics.review-created}"],
@@ -28,7 +29,10 @@ class ReviewEventListener(
         event: ReviewCreatedEvent,
         @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String
     ) {
-        if (!validateDataSourceType(event)) return
+        if (event.reviewSourceType.equals(ignore)) {
+            logger.info("Ignoring message for ${event.reviewSourceType}")
+            return
+        }
 
         val task = TelegramBotTask(
             taskType = topic,
@@ -43,22 +47,5 @@ class ReviewEventListener(
             event.id,
             event.reviewerTelegramUserId
         )
-    }
-
-    private fun validateDataSourceType(event: ReviewCreatedEvent): Boolean {
-        return when (event.dataSourceType) {
-            SourceType.FRONTEND, SourceType.DATA_IMPORTER -> true
-            null -> {
-                logger.warn("dataSourceType is null for review id={}", event.id)
-                false
-            }
-            else -> {
-                logger.warn(
-                    "Unsupported dataSourceType='{}' for review id={}. Allowed: {}, {}",
-                    event.dataSourceType, event.id, SourceType.FRONTEND, SourceType.DATA_IMPORTER
-                )
-                false
-            }
-        }
     }
 }

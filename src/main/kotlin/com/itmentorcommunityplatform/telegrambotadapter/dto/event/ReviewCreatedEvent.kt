@@ -18,5 +18,5 @@ data class ReviewCreatedEvent (
 
     val project: ProjectDto,
 
-    val dataSourceType: SourceType?
+    val reviewSourceType: SourceType
 )
