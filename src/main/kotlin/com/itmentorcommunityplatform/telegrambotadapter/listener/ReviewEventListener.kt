@@ -35,7 +35,7 @@ class ReviewEventListener(
         }
 
         val task = TelegramBotTask(
-            taskType = topic,
+            taskType = topic.removePrefix("staging.").removePrefix("prod."),
             payload = JsonbValue(objectMapper.writeValueAsString(event)),
             createdAt = System.currentTimeMillis() / 1000
         )
