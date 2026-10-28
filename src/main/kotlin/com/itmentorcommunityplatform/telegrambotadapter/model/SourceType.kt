@@ -1,5 +1,7 @@
 package com.itmentorcommunityplatform.telegrambotadapter.model
 
 enum class SourceType() {
-    TELEGRAM_BOT
+    FRONTEND,
+    TELEGRAM_BOT,
+    DATA_IMPORTER
 }

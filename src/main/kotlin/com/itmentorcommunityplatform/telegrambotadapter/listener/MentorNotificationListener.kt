@@ -28,7 +28,7 @@ class MentorNotificationListener(
         @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
     ) {
         val task = TelegramBotTask(
-            taskType = topic,
+            taskType = topic.removePrefix("staging.").removePrefix("prod."),
             payload = JsonbValue(objectMapper.writeValueAsString(event)),
             createdAt = Instant.now().epochSecond
         )

@@ -2,6 +2,8 @@ package com.itmentorcommunityplatform.telegrambotadapter.dto.event
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
+import com.itmentorcommunityplatform.telegrambotadapter.model.RoadmapProject
+import com.itmentorcommunityplatform.telegrambotadapter.model.SourceType
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class ProjectCreatedEvent(
@@ -14,9 +16,9 @@ data class ProjectCreatedEvent(
 
     val programmingLanguage: String,
 
-    val roadmapProject: String,
+    val roadmapProject: RoadmapProject,
 
     val addedTimestamp: Long,
 
-    val projectSourceType: String
+    val projectSourceType: SourceType
 )
