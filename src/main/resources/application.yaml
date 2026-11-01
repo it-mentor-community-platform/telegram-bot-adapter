@@ -28,3 +28,9 @@ spring:
       mentor-notification: notifications.mentors.project.submitted
       student-review-submitted: notifications.students.review.submitted
       review-created: reviews.review.created
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health
