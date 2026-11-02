@@ -15,7 +15,8 @@ import java.time.Instant
 @Component
 class MentorNotificationListener(
     private val taskRepository: TelegramBotTaskRepository,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val telegramBotMetrics: TelegramBotMetrics
 ) {
     private val logger = LoggerFactory.getLogger(MentorNotificationListener::class.java)
 
@@ -34,6 +35,9 @@ class MentorNotificationListener(
         )
 
         taskRepository.save(task)
+
+
+        telegramBotMetrics.recordReceivedMessage(task.taskType)
 
         logger.info(
             "Saved mentor notification task for project: roadmapProject={}, mentorsCount={}",
