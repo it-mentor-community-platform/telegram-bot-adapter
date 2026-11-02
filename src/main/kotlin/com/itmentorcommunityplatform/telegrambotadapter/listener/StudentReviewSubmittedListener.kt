@@ -13,33 +13,36 @@ import org.springframework.stereotype.Component
 
 @Component
 class StudentReviewSubmittedListener(
-    private val taskRepository: TelegramBotTaskRepository,
-    private val objectMapper: ObjectMapper
+        private val taskRepository: TelegramBotTaskRepository,
+        private val objectMapper: ObjectMapper,
+        private val telegramBotMetrics: TelegramBotMetrics
 ) {
 
     private val logger =
-        LoggerFactory.getLogger(StudentReviewSubmittedListener::class.java)
+            LoggerFactory.getLogger(StudentReviewSubmittedListener::class.java)
 
     @KafkaListener(
-        topics = ["\${spring.kafka.topics.student-review-submitted}"],
-        groupId = "telegram-bot-adapter-cg"
+            topics = ["\${spring.kafka.topics.student-review-submitted}"],
+            groupId = "telegram-bot-adapter-cg"
     )
     fun consume(
-        event: StudentReviewSubmittedEvent,
-        @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String
+            event: StudentReviewSubmittedEvent,
+            @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String
     ) {
         val task = TelegramBotTask(
-            taskType = topic.removePrefix("staging.").removePrefix("prod."),
-            payload = JsonbValue(objectMapper.writeValueAsString(event)),
-            createdAt = System.currentTimeMillis() / 1000
+                taskType = topic.removePrefix("staging.").removePrefix("prod."),
+                payload = JsonbValue(objectMapper.writeValueAsString(event)),
+                createdAt = System.currentTimeMillis() / 1000
         )
 
         taskRepository.save(task)
 
+        telegramBotMetrics.recordReceivedMessage(task.taskType)
+
         logger.info(
-            "Saved student review notification task: reviewId={}, reviewerTelegramUserId={}",
-            event.id,
-            event.reviewerTelegramUserId
+                "Saved student review notification task: reviewId={}, reviewerTelegramUserId={}",
+                event.id,
+                event.reviewerTelegramUserId
         )
     }
 }

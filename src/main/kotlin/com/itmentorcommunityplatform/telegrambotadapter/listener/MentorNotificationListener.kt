@@ -5,6 +5,7 @@ import com.itmentorcommunityplatform.telegrambotadapter.dto.event.MentorNotifica
 import com.itmentorcommunityplatform.telegrambotadapter.model.JsonbValue
 import com.itmentorcommunityplatform.telegrambotadapter.model.TelegramBotTask
 import com.itmentorcommunityplatform.telegrambotadapter.repository.TelegramBotTaskRepository
+import io.micrometer.core.instrument.MeterRegistry
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.KafkaHeaders
@@ -14,31 +15,35 @@ import java.time.Instant
 
 @Component
 class MentorNotificationListener(
-    private val taskRepository: TelegramBotTaskRepository,
-    private val objectMapper: ObjectMapper
+        private val taskRepository: TelegramBotTaskRepository,
+        private val objectMapper: ObjectMapper,
+        private val telegramBotMetrics: TelegramBotMetrics
 ) {
     private val logger = LoggerFactory.getLogger(MentorNotificationListener::class.java)
 
     @KafkaListener(
-        topics = ["\${spring.kafka.topics.mentor-notification}"],
-        groupId = "telegram-bot-adapter-cg",
+            topics = ["\${spring.kafka.topics.mentor-notification}"],
+            groupId = "telegram-bot-adapter-cg",
     )
     fun consume(
-        event: MentorNotificationEvent,
-        @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
+            event: MentorNotificationEvent,
+            @Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
     ) {
         val task = TelegramBotTask(
-            taskType = topic.removePrefix("staging.").removePrefix("prod."),
-            payload = JsonbValue(objectMapper.writeValueAsString(event)),
-            createdAt = Instant.now().epochSecond
+                taskType = topic.removePrefix("staging.").removePrefix("prod."),
+                payload = JsonbValue(objectMapper.writeValueAsString(event)),
+                createdAt = Instant.now().epochSecond
         )
 
         taskRepository.save(task)
 
+
+        telegramBotMetrics.recordReceivedMessage(task.taskType)
+
         logger.info(
-            "Saved mentor notification task for project: roadmapProject={}, mentorsCount={}",
-            event.project.roadmapProject,
-            event.mentors.size
+                "Saved mentor notification task for project: roadmapProject={}, mentorsCount={}",
+                event.project.roadmapProject,
+                event.mentors.size
         )
     }
 }

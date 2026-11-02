@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component
 @Component
 class ProjectEventListener(
     private val taskRepository: TelegramBotTaskRepository,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val telegramBotMetrics: TelegramBotMetrics
 ) {
     private val logger = LoggerFactory.getLogger("ProjectEventListener")
     private val ignore = SourceType.TELEGRAM_BOT
@@ -40,6 +41,8 @@ class ProjectEventListener(
         )
 
         taskRepository.save(task)
+
+        telegramBotMetrics.recordReceivedMessage(task.taskType)
 
         logger.info(
             "Saved task for project: roadmapProject={}, source={}",
