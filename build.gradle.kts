@@ -36,6 +36,9 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation ("org.liquibase:liquibase-core")
 
+    // Prometheus
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+
     // Docs
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
 

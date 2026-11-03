@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component
 @Component
 class StudentReviewSubmittedListener(
     private val taskRepository: TelegramBotTaskRepository,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val telegramBotMetrics: TelegramBotMetrics
 ) {
 
     private val logger =
@@ -35,6 +36,8 @@ class StudentReviewSubmittedListener(
         )
 
         taskRepository.save(task)
+
+        telegramBotMetrics.recordReceivedMessage(task.taskType)
 
         logger.info(
             "Saved student review notification task: reviewId={}, reviewerTelegramUserId={}",
